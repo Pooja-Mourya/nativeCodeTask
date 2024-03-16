@@ -9,7 +9,7 @@ const Login = ({navigation}) => {
   const [passwordInput, setPasswordInput] = useState('');
 
   const onPressSubmit = async () => {
-    if(emailInput === '' && passwordInput === ''){
+    if(emailInput != '' && passwordInput != ''){
         await AsyncStorage.setItem("user", emailInput )
        const user = await AsyncStorage.getItem("user" )
        console.log("user ++ " , user)

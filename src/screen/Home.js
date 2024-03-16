@@ -11,15 +11,19 @@ import axios from 'axios';
 
 const Home = ({navigation}) => {
   const [data, setData] = useState([]);
+  const [loader, setLoader] = useState(false);
   const handleListData = async () => {
+    setLoader(true);
     await axios
       .get('https://jsonplaceholder.typicode.com/posts')
       .then(function (response) {
         // console.log("response data", response);
         setData(response?.data);
+        setLoader(false);
       })
       .catch(function (error) {
         console.log(error);
+        setLoader(true);
       });
   };
 
@@ -29,7 +33,7 @@ const Home = ({navigation}) => {
   useEffect(() => {
     handleListData();
   }, []);
-
+  if (loader) return <Text>Loading...</Text>;
   return (
     <>
       <Button onPress={handleAddPost} title="Add Post" color="#841584" />
@@ -41,11 +45,11 @@ const Home = ({navigation}) => {
             <View key={index} style={styles.container}>
               <View style={[styles.contentStyle, {}]}>
                 <Text style={styles.boldText}>title:</Text>
-                <Text style={{width: '70%'}}>{item.title}</Text>
+                <Text style={{width: '70%'}}>{item?.title}</Text>
               </View>
               <View style={[styles.contentStyle, {}]}>
                 <Text style={styles.boldText}>Description:</Text>
-                <Text style={{width: '70%'}}>{item.body}</Text>
+                <Text style={{width: '70%'}}>{item?.body}</Text>
               </View>
             </View>
           )}
